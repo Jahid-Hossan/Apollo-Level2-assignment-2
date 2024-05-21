@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 import { TInventory, TProduct, TProductVariant } from "./shop.interface";
 
 const productVariantSchema = new Schema<TProductVariant>({
@@ -49,3 +49,4 @@ const productSchema = new Schema<TProduct>({
 });
 
 
+export const ProductModel = model<TProduct>('Products', productSchema)
