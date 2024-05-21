@@ -9,6 +9,12 @@ const addProductIntoDB = async (product: TProduct) => {
     return result;
   };
 
+  const getProductFromDB = async () => {
+    const result = await ProductModel.find();
+    return result;
+  };
+
   export const productServices = {
-    addProductIntoDB
+    addProductIntoDB,
+    getProductFromDB
   }
