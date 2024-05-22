@@ -12,4 +12,4 @@ router.put("/products/:productId", productControllers.updateProduct);
 
 router.delete("/products/:productId", productControllers.deleteProduct);
 
-export const ProductRoutes = router; 
+export const ProductRoutes = router;

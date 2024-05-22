@@ -11,19 +11,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.productServices = void 0;
 const shop_model_1 = require("./shop.model");
+// post product
 const addProductIntoDB = (product) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield shop_model_1.ProductModel.create(product);
     return result;
 });
-const getProductFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield shop_model_1.ProductModel.find();
+// get all product
+const getProductFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    const regexPattern = new RegExp(searchTerm);
+    const result = yield shop_model_1.ProductModel.find({ name: { $regex: regexPattern, $options: 'i' } });
     return result;
 });
+// get single product
 const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const query = { _id: id };
     const result = yield shop_model_1.ProductModel.findOne(query);
     return result;
 });
+// update product
 const updateProductFromDB = (id, product) => __awaiter(void 0, void 0, void 0, function* () {
     // const query = { _id: id };
     const updatedProductData = {
@@ -37,7 +42,13 @@ const updateProductFromDB = (id, product) => __awaiter(void 0, void 0, void 0, f
             inventory: product.inventory,
         },
     };
-    const result = yield shop_model_1.ProductModel.findByIdAndUpdate(id, updatedProductData);
+    const result = yield shop_model_1.ProductModel.findByIdAndUpdate(id, updatedProductData, { new: true, runValidators: true });
+    return result;
+});
+// get single product
+const deleteProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = { _id: id };
+    const result = yield shop_model_1.ProductModel.findByIdAndDelete(query);
     return result;
 });
 exports.productServices = {
@@ -45,4 +56,5 @@ exports.productServices = {
     getProductFromDB,
     getSingleProductFromDB,
     updateProductFromDB,
+    deleteProductFromDB
 };

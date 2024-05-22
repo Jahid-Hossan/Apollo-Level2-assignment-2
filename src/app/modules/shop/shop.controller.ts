@@ -28,16 +28,18 @@ const getProduct = async (req: Request, res: Response) => {
   try {
     // const product = req.body;
     // console.log(req.query);
-    const searchTerm=req.query.searchTerm;
-    
+    const searchTerm = req.query.searchTerm;
+
     if (searchTerm) {
-      const result = await productServices.getProductFromDB(searchTerm as string);
+      const result = await productServices.getProductFromDB(
+        searchTerm as string,
+      );
       res.status(200).json({
         success: true,
         message: "Products fetched successfully!",
         data: result,
       });
-    }else{
+    } else {
       const result = await productServices.getProductFromDB();
       res.status(200).json({
         success: true,
@@ -45,8 +47,6 @@ const getProduct = async (req: Request, res: Response) => {
         data: result,
       });
     }
-
-    
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -129,6 +129,5 @@ export const productControllers = {
   getProduct,
   getSingleProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 };
- 

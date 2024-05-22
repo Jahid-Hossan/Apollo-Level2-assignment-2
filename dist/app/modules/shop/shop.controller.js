@@ -34,12 +34,24 @@ const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // const product = req.body;
-        const result = yield shop_service_1.productServices.getProductFromDB();
-        res.status(200).json({
-            success: true,
-            message: "Products fetched successfully!",
-            data: result,
-        });
+        // console.log(req.query);
+        const searchTerm = req.query.searchTerm;
+        if (searchTerm) {
+            const result = yield shop_service_1.productServices.getProductFromDB(searchTerm);
+            res.status(200).json({
+                success: true,
+                message: "Products fetched successfully!",
+                data: result,
+            });
+        }
+        else {
+            const result = yield shop_service_1.productServices.getProductFromDB();
+            res.status(200).json({
+                success: true,
+                message: "Products fetched successfully!",
+                data: result,
+            });
+        }
     }
     catch (err) {
         res.status(500).json({
@@ -88,9 +100,29 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
+// DELETE product
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const result = yield shop_service_1.productServices.deleteProductFromDB(productId);
+        res.status(200).json({
+            success: true,
+            message: "Product deleted successfully!",
+            data: null,
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+            error: err,
+        });
+    }
+});
 exports.productControllers = {
     addProduct,
     getProduct,
     getSingleProduct,
     updateProduct,
+    deleteProduct
 };
