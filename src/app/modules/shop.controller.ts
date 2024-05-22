@@ -27,13 +27,26 @@ const addProduct = async (req: Request, res: Response) => {
 const getProduct = async (req: Request, res: Response) => {
   try {
     // const product = req.body;
-    const result = await productServices.getProductFromDB();
+    // console.log(req.query);
+    const {searchTerm}=req.query;
+    
+    if (searchTerm) {
+      const result = await productServices.getProductFromDB(searchTerm);
+      res.status(200).json({
+        success: true,
+        message: "Products fetched successfully!",
+        data: result,
+      });
+    }else{
+      const result = await productServices.getProductFromDB();
+      res.status(200).json({
+        success: true,
+        message: "Products fetched successfully!",
+        data: result,
+      });
+    }
 
-    res.status(200).json({
-      success: true,
-      message: "Products fetched successfully!",
-      data: result,
-    });
+    
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -99,8 +112,8 @@ const deleteProduct = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: "Products fetched successfully!",
-      data: result,
+      message: "Product deleted successfully!",
+      data: null,
     });
   } catch (err) {
     res.status(500).json({
