@@ -28,10 +28,10 @@ const getProduct = async (req: Request, res: Response) => {
   try {
     // const product = req.body;
     // console.log(req.query);
-    const {searchTerm}=req.query;
+    const searchTerm=req.query.searchTerm;
     
     if (searchTerm) {
-      const result = await productServices.getProductFromDB(searchTerm);
+      const result = await productServices.getProductFromDB(searchTerm as string);
       res.status(200).json({
         success: true,
         message: "Products fetched successfully!",
